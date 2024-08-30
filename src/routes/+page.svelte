@@ -2,19 +2,40 @@
 	import Input from "../components/Input.svelte";
 	import Message from "../components/Message.svelte";
 
-    let messages: string[] = [];
+    interface Message {
+        fromPlayer: boolean;
+        content: string;
+    }
+
+    let messages: Message[] = [];
+    let disableInput = false;
 
     function addMessage(event) {
-        messages = [...messages, event.detail];
+        const newMessage: Message = {
+            fromPlayer: true,
+            content: event.detail,
+        }
+        messages = [...messages, newMessage];
+        disableInput = true;
+        setTimeout(computerMessage, 1000);
+    }
+
+    function computerMessage() {
+        const newMessage: Message = {
+            fromPlayer: false,
+            content: "Hello adventurer! Welcome to <Universe Name>!",
+        }
+        messages = [...messages, newMessage];
+        setTimeout(() => {disableInput = false}, 300);
     }
 
 </script>
 
 <div id="page">
     {#each messages as message (message)}
-        <Message fromPlayer={true} content={message} />
+        <Message fromPlayer={message.fromPlayer} content={message.content} />
     {/each}
-    <Input on:enter={addMessage} />
+    <Input on:enter={addMessage} {disableInput} />
 </div>
 
 <style>
