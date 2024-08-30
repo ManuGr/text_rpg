@@ -6,13 +6,13 @@
     let lastInput = "";
     let inputValue = "";
     let currentInput = "";
-    let inputField: HTMLInputElement;
+    let inputField: any;
 
     export function setFocus() {
         setTimeout(() => inputField.focus(), 300);
     }
 
-    function handleKeyDown(event) {
+    function handleKeyDown(event: any) {
         if (event.key == "Enter") {
             dispatch("enter", inputValue);
             lastInput = inputValue;

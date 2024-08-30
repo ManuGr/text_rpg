@@ -7,7 +7,7 @@
 
 <div class="container {fromPlayer ? "right" : ""}" transition:fly={{y: 20, duration: 300}}>
     <div class="message {fromPlayer ? "green" : ""}">
-        <p>{content}</p>
+        <p>{@html content}</p>
     </div>
 </div>
 
@@ -31,7 +31,8 @@
         height: max-content;
         background-color: #282B30;
         border-radius: 50px;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 2rem;
+        max-width: 40%;
     }
 
     .green {
@@ -45,5 +46,6 @@
         font-size: 17px;
         color: #F5F5F5;
         margin: 0;
+        word-break: break-word;
     }
 </style>
