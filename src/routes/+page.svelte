@@ -7,6 +7,8 @@
         content: string;
     }
 
+    let playerInput;
+
     let messages: Message[] = [];
     let disableInput = false;
 
@@ -27,6 +29,7 @@
         }
         messages = [...messages, newMessage];
         setTimeout(() => {disableInput = false}, 300);
+        playerInput.setFocus();
     }
 
 </script>
@@ -35,7 +38,7 @@
     {#each messages as message (message)}
         <Message fromPlayer={message.fromPlayer} content={message.content} />
     {/each}
-    <Input on:enter={addMessage} {disableInput} />
+    <Input bind:this={playerInput} on:enter={addMessage} {disableInput} />
 </div>
 
 <style>

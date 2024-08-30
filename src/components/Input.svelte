@@ -2,11 +2,15 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
-    let textArea;
     export let disableInput;
     let lastInput = "";
     let inputValue = "";
     let currentInput = "";
+    let inputField: HTMLInputElement;
+
+    export function setFocus() {
+        setTimeout(() => inputField.focus(), 300);
+    }
 
     function handleKeyDown(event) {
         if (event.key == "Enter") {
@@ -15,7 +19,7 @@
             inputValue = "";
         }
 
-        if (event.key == "ArrowUp" && lastInput !== "") {
+        if (event.key == "ArrowUp" && lastInput !== "" && lastInput !== inputValue) {
             event.preventDefault();
             currentInput = inputValue;
             inputValue = lastInput;
@@ -27,7 +31,7 @@
     }
 </script>
 
-<input type="text" bind:this={textArea} bind:value={inputValue} on:keydown={handleKeyDown} placeholder="Type your message and press Enter" disabled={disableInput}>
+<input type="text" bind:this={inputField} bind:value={inputValue} on:keydown={handleKeyDown} placeholder="Type your message and press Enter" disabled={disableInput}>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
