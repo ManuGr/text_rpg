@@ -2,18 +2,32 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
+    let textArea;
     export let disableInput;
+    let lastInput = "";
     let inputValue = "";
+    let currentInput = "";
 
     function handleKeyDown(event) {
         if (event.key == "Enter") {
             dispatch("enter", inputValue);
+            lastInput = inputValue;
             inputValue = "";
+        }
+
+        if (event.key == "ArrowUp" && lastInput !== "") {
+            event.preventDefault();
+            currentInput = inputValue;
+            inputValue = lastInput;
+        }
+
+        if (event.key == "ArrowDown" && inputValue === lastInput) {
+            inputValue = currentInput;
         }
     }
 </script>
 
-<input type="text" bind:value={inputValue} on:keydown={handleKeyDown} placeholder="Type your message and press Enter" disabled={disableInput}>
+<input type="text" bind:this={textArea} bind:value={inputValue} on:keydown={handleKeyDown} placeholder="Type your message and press Enter" disabled={disableInput}>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
